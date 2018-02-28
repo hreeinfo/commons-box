@@ -1,0 +1,162 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:${plugin_version_bintray}"
+    }
+}
+
+configure(allprojects) {
+    group = "${project_group}"
+    version = "${project_version}"
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    apply plugin: "com.jfrog.bintray"
+    apply plugin: "maven-publish"
+
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode("name", "commons-box")
+                    root.appendNode("description", "Common utils for BOX projects.")
+                    root.appendNode("url", "https://github.com/hreeinfo/commons-box")
+                    root.appendNode("inceptionYear", "2018")
+
+                    def scm = root.appendNode("scm")
+                    scm.appendNode("url", "https://github.com/hreeinfo/commons-box")
+                    scm.appendNode("connection", "scm:https://xingxiuyi@github.com/hreeinfo/commons-box.git")
+                    scm.appendNode("developerConnection", "scm:git://github.com/hreeinfo/commons-box.git")
+
+                    def license = root.appendNode("licenses").appendNode("license")
+                    license.appendNode("name", "The Apache Software License, Version 2.0")
+                    license.appendNode("url", "http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    license.appendNode("distribution", "repo")
+
+                    def developers = root.appendNode("developers")
+                    def bmuschko = developers.appendNode("developer")
+                    bmuschko.appendNode("id", "xingxiuyi")
+                    bmuschko.appendNode("name", "Xing Xiuyi")
+                    bmuschko.appendNode("email", "xingxiuyi@gmail.com")
+                }
+            }
+        }
+    }
+
+
+
+    bintray {
+        user = project.hasProperty("bintrayUser") ? project.getProperty("bintrayUser") : null
+        key =  project.hasProperty("bintrayKey") ? project.getProperty("bintrayKey") : null
+        publications = ["mavenJava"]
+        publish = true
+
+        pkg {
+            userOrg = "hreeinfo"
+            repo = "commons"
+            name = "commons-box"
+            desc = "Common utils for BOX projects."
+            websiteUrl = "https://github.com/hreeinfo/commons-box"
+            issueTrackerUrl = "https://github.com/hreeinfo/commons-box/issues"
+            vcsUrl = "https://github.com/hreeinfo/commons-box.git"
+            licenses = ["Apache-2.0"]
+            labels = ["java", "commons", "box", "utils"]
+            publicDownloadNumbers = true
+
+            version {
+                vcsTag = "v${project.version}"
+            }
+        }
+    }
+}
+
+
+configure(subprojects) {
+    apply plugin: "java"
+    apply plugin: "maven"
+
+    compileJava {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+        options.compilerArgs += "-Xlint:-options";
+
+        // 在独立的进程中编译 使用增量编译
+        //options.fork = true
+        //options.incremental = true
+    }
+    compileTestJava {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+        options.compilerArgs += "-Xlint:-options";
+
+        // 在独立的进程中编译 使用增量编译
+        //options.fork = true
+        //options.incremental = true
+    }
+
+    javadoc {
+        exclude("**/internal/**", "**/Internal*", "**/*Internal", "**/Test*", "**/*Test", "**/temp/**")
+        failOnError = false
+        options.quiet()
+
+        options.charSet("UTF-8")
+        options.docEncoding("UTF-8")
+        options.locale("zh_CN")
+
+        options.quiet()
+        options.showFromPublic()
+        options.header("${project_title}")
+        options.windowTitle("${project_title}")
+        options.docTitle("${project_title}")
+        options.footer("${project_productor}")
+
+        options.addStringOption("Xdoclint:none Xdoclint:-accessibility Xdoclint:-html Xdoclint:-missing Xdoclint:-syntax")
+
+        options.author()
+        options.splitIndex()
+        options.serialWarn()
+
+        options.links(
+                "http://docs.oracle.com/javase/8/docs/api/",
+                "http://docs.spring.io/spring/docs/current/javadoc-api/"
+        )
+    }
+
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+
+                artifact sourcesJar {
+                    classifier "sources"
+                }
+                artifact javadocJar {
+                    classifier "javadoc"
+                }
+            }
+        }
+    }
+
+}
+

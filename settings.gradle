@@ -1,0 +1,6 @@
+rootProject.name = "commons-box-parent"
+
+
+include "commons-box-app"
+include "commons-box-data"
+include "commons-box-server"
