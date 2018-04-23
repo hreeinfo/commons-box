@@ -2,5 +2,12 @@ rootProject.name = "commons-box-parent"
 
 
 include "commons-box-app"
+include "commons-box-log-slf4j"
+include "commons-box-test"
+include "commons-box-bean"
 include "commons-box-data"
+include "commons-box-io"
+include "commons-box-ext"
 include "commons-box-server"
+include "commons-box-spring"
+include "commons-box-web"

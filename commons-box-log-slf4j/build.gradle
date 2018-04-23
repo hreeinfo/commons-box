@@ -1,0 +1,10 @@
+apply plugin: "java"
+
+dependencies {
+    compile(project(":commons-box-app"))
+    compile("org.slf4j:slf4j-api:${version_slf4j}")
+
+    compile("ch.qos.logback:logback-core:${version_logback}")
+    compile("ch.qos.logback:logback-classic:${version_logback}")
+}
+

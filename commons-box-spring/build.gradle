@@ -1,0 +1,7 @@
+apply plugin: "java"
+
+dependencies {
+    compile(project(":commons-box-app"))
+    compile("org.springframework:spring-core:${version_spring}")
+    compile("org.springframework:spring-context:${version_spring}")
+}

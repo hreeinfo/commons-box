@@ -1,8 +1,13 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
         jcenter()
+        mavenCentral()
+        if (project.hasProperty("hi_public_url")) {
+            maven {
+                url = project.getProperty("hi_public_url")
+            }
+        }
     }
 
     dependencies {
@@ -15,8 +20,13 @@ configure(allprojects) {
     version = "${project_version}"
     repositories {
         mavenLocal()
-        mavenCentral()
         jcenter()
+        mavenCentral()
+        if (project.hasProperty("hi_public_url")) {
+            maven {
+                url = project.getProperty("hi_public_url")
+            }
+        }
     }
 
     apply plugin: "com.jfrog.bintray"
@@ -48,6 +58,23 @@ configure(allprojects) {
                     bmuschko.appendNode("id", "xingxiuyi")
                     bmuschko.appendNode("name", "Xing Xiuyi")
                     bmuschko.appendNode("email", "xingxiuyi@gmail.com")
+                }
+            }
+
+        }
+
+        if (project.hasProperty("hi_public_user")) {
+            repositories.maven {
+                name = "hipublic"
+                if (project.version.endsWith("-SNAPSHOT") && project.hasProperty("hi_public_url_snapshot")) {
+                    url = project.hasProperty("hi_public_url_snapshot") ? project.getProperty("hi_public_url_snapshot") : null
+                } else {
+                    url = project.hasProperty("hi_public_url_release") ? project.getProperty("hi_public_url_release") : null
+                }
+
+                credentials {
+                    username = project.hasProperty("hi_public_user") ? project.getProperty("hi_public_user") : null
+                    password = project.hasProperty("hi_public_password") ? project.getProperty("hi_public_password") : null
                 }
             }
         }

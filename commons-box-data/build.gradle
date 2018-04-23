@@ -2,5 +2,10 @@ apply plugin: "java"
 
 dependencies {
     compile(project(":commons-box-app"))
+    compile("org.apache.commons:commons-csv:${version_commons_csv}")
+    compile("com.alibaba:fastjson:${version_fastjson}")
+    compile("org.ini4j:ini4j:${version_ini4j}")
+    compile("org.yaml:snakeyaml:${version_yaml}")
+
 }
 

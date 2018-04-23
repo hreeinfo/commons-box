@@ -2,4 +2,8 @@ apply plugin: "java"
 
 dependencies {
     compile(project(":commons-box-app"))
+    compile(project(":commons-box-bean"))
+    compile(project(":commons-box-data"))
+    compile(project(":commons-box-io"))
+    compile(project(":commons-box-log-slf4j"))
 }

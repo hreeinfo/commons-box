@@ -1,0 +1,8 @@
+apply plugin: "java"
+
+dependencies {
+    compile(project(":commons-box-app"))
+
+    // 容器相关 需要在最终的web工程中excludes或重写为provide
+    compileOnly("javax.servlet:javax.servlet-api:${version_javax_servlet}")
+}
