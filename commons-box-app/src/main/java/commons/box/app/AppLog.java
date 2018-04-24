@@ -1,5 +1,7 @@
 package commons.box.app;
 
+import commons.box.util.Logs;
+
 import java.util.function.Supplier;
 
 /**
@@ -341,4 +343,24 @@ public interface AppLog {
      * @return
      */
     public boolean isEnabled(LogLevel level);
+
+    /**
+     * 直接获取
+     *
+     * @param name
+     * @return
+     */
+    public static AppLog get(String name) {
+        return Logs.get(name);
+    }
+
+    /**
+     * 直接获取
+     *
+     * @param cls
+     * @return
+     */
+    public static AppLog get(Class<?> cls) {
+        return Logs.get(cls);
+    }
 }

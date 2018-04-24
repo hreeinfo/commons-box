@@ -70,10 +70,9 @@ public final class Resources {
             AppResource.Loader loader = HOLDER.getLoaderByPattern(p);
 
             if (loader != null) {
-                System.out.println("找到目标 loader :" + loader);
                 List<? extends AppResource> ars = loader.getResources(p);
                 if (ars != null) resources.addAll(ars);
-            } else System.out.println("未找到目标loader " + p);
+            }
         }
         return Collects.immlist(resources);
     }
@@ -93,13 +92,14 @@ public final class Resources {
             protocol = Strs.trim(protocol);
             if (!Strs.endsWith(protocol, ":")) protocol = protocol + ":";
 
+            final String fprotocol = protocol;
             synchronized (this.loaders) {
                 if (overwrite) {
                     this.loaders.put(protocol, loader);
-                    LOG.info("注册了 LOGDER - " + protocol + " " + loader.getClass().getSimpleName());
+                    LOG.debug(() -> "注册了 ResourceLoader - " + fprotocol + " " + loader.getClass().getSimpleName());
                 } else if (!this.loaders.containsKey(protocol)) {
                     this.loaders.put(protocol, loader);
-                    LOG.info("注册了 LOGDER - " + protocol + " " + loader.getClass().getSimpleName());
+                    LOG.debug(() -> "注册了 ResourceLoader - " + fprotocol + " " + loader.getClass().getSimpleName());
                 }
             }
         }
@@ -127,7 +127,7 @@ public final class Resources {
             pattern = Strs.trim(pattern);
 
             String protocol = (Strs.contains(pattern, ":")) ? (Strs.subBefore(pattern, ":") + ":") : PROTOCOL_FILE;
-            System.out.println("获取loader 时的协议为 " + protocol);
+
             return getLoader(protocol);
         }
 

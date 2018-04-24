@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * 载入INI配置文件
@@ -36,6 +37,8 @@ public final class INIs {
 
     /**
      * 返回配置 每节一个map 未分节的配置在默认空字符串为key的map中
+     * <p>
+     * 需要手工关闭流
      *
      * @param is INI文件流
      * @return
@@ -44,6 +47,42 @@ public final class INIs {
         return load(new InputStreamIniLoadConsumer(is));
     }
 
+    /**
+     * 返回配置 每节一个map 未分节的配置在默认空字符串为key的map中
+     * <p>
+     * 此方法会自动关闭流
+     *
+     * @param sp
+     * @param onFail
+     * @return
+     */
+    public static Map<String, Map<String, String>> load(Supplier<InputStream> sp, Consumer<Throwable> onFail) {
+        Map<String, Map<String, String>> result = null;
+        InputStream is = null;
+        try {
+            is = sp.get();
+            if (is != null) result = load(new InputStreamIniLoadConsumer(is));
+        } catch (Throwable e) {
+            LOG.warn("无法读取目标流");
+            if (onFail != null) onFail.accept(e);
+        } finally {
+            IOs.close(is);
+        }
+        if (result == null) result = EMPTY_MAP;
+        return result;
+    }
+
+    /**
+     * 返回配置 每节一个map 未分节的配置在默认空字符串为key的map中
+     * <p>
+     * 此方法会自动关闭流
+     *
+     * @param sp
+     * @return
+     */
+    public static Map<String, Map<String, String>> load(Supplier<InputStream> sp) {
+        return load(sp, null);
+    }
 
     /**
      * 返回配置 每节一个map 未分节的配置在默认空字符串为key的map中

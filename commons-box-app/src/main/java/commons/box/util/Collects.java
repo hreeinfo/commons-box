@@ -173,11 +173,41 @@ public final class Collects {
     }
 
     /**
+     * 向 source 中增加元素
+     *
+     * @param source
+     * @param b
+     * @param <T>
+     */
+    public static <T> void addAll(final Collection<T> source, final Collection<T> b) {
+        if (source == null) return;
+        if (b != null && !b.isEmpty()) source.addAll(b);
+    }
+
+    /**
+     * 向 source 中增加元素
+     *
+     * @param source
+     * @param b
+     * @param <T>
+     */
+    public static <T> void addAll(final Collection<T> source, final T[] b) {
+        if (source == null) return;
+        if (b != null && b.length > 0) source.addAll(Arrays.asList(b));
+    }
+
+
+    /**
      * 返回a+b的新List.
      */
     public static <T> List<T> union(final Collection<T> a, final Collection<T> b) {
+        if (a == null && b == null) return new ArrayList<>();
+        else if (a == null) return new ArrayList<>(b);
+        else if (b == null) return new ArrayList<>(a);
+
         List<T> result = new ArrayList<>(a);
         result.addAll(b);
+
         return result;
     }
 

@@ -5,6 +5,7 @@ import commons.box.spring.resource.SpringAppResourceLoader;
 import commons.box.spring.resource.SpringAppResourceWrapper;
 import commons.box.spring.resource.SpringResource;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public final class Springs {
         applySpringResourceLoader(context, true);
     }
 
-    public static void applySpringResourceLoader(ApplicationContext context, boolean overwrite) {
+    public static void applySpringResourceLoader(ResourcePatternResolver context, boolean overwrite) {
         if (context == null) return;
         try {
             Resources.addLoader(new SpringAppResourceLoader(context), overwrite);

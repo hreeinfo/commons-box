@@ -243,9 +243,4 @@ public class InternalAppResourceLoaders {
             return EMPTY;
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(new File("/cdd/aaa").toURI().toURL());
-        System.out.println(InternalAppResourceLoaders.class.getClassLoader().getResourceAsStream("java/lang/Integer.class"));
-    }
 }

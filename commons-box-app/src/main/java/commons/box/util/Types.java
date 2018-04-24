@@ -31,7 +31,6 @@ public final class Types {
     public static final String CLASS_GLIBC_SEPARATOR = "$$";
 
 
-
     /**
      * 判断第一个参数superType是否是第二个参数type的上级类或同一个类
      *
@@ -487,7 +486,8 @@ public final class Types {
         if (obj == null) throw AppError.error("对象为空 不能调用");
         Class<?> type = obj.getClass();
         Method m = findMethod(type, name, parameterTypes, parameters);
-        if (m == null) throw AppError.error(type + " 未找到方法 " + name + ((parameterTypes != null) ? (" 参数 " + Arrays.toString(parameterTypes)) : ""));
+        if (m == null)
+            throw AppError.error(type + " 未找到方法 " + name + ((parameterTypes != null) ? (" 参数 " + Arrays.toString(parameterTypes)) : ""));
         try {
             if (accessible) makeAccessible(m);
             return m.invoke(obj, parameters);
@@ -554,7 +554,8 @@ public final class Types {
                 else {
                     List<Method> methodList = new ArrayList<>();
                     final Method[] declaredMethods = cls.getDeclaredMethods();
-                    for (Method m : declaredMethods) if (m != null && Modifier.isPublic(m.getModifiers())) methodList.add(m);
+                    for (Method m : declaredMethods)
+                        if (m != null && Modifier.isPublic(m.getModifiers())) methodList.add(m);
                     return methodList.toArray(new Method[methodList.size()]);
                 }
             } catch (Throwable ignored) {
@@ -580,7 +581,8 @@ public final class Types {
                     methodList.addAll(Collects.asList(cls.getMethods()));
 
                     final Method[] declaredMethods = cls.getDeclaredMethods();
-                    for (Method m : declaredMethods) if (m != null && !Modifier.isPublic(m.getModifiers())) methodList.add(m);
+                    for (Method m : declaredMethods)
+                        if (m != null && !Modifier.isPublic(m.getModifiers())) methodList.add(m);
                 } catch (Throwable ignored) {
                 }
             }
@@ -862,6 +864,28 @@ public final class Types {
         return (Class) params[index];
     }
 
+    /**
+     * 获取当前的 class loader
+     *
+     * @return
+     */
+    public static ClassLoader getDefaultClassLoader() {
+        ClassLoader cl = null;
+        try {
+            cl = Thread.currentThread().getContextClassLoader();
+        } catch (Throwable ignored) {
+        }
+        if (cl == null) {
+            cl = Types.class.getClassLoader();
+            if (cl == null) {
+                try {
+                    cl = ClassLoader.getSystemClassLoader();
+                } catch (Throwable ignored) {
+                }
+            }
+        }
+        return cl;
+    }
 
     /**
      * 对象相等比较 避免了NPE，普通对象直接判断是否相等；数组做深度判断；类型是否相等在java中是指针相等，

@@ -89,8 +89,4 @@ public class InternalServiceLoaders {
 
         return services;
     }
-
-    public static void main(String[] args) {
-        System.out.println(Priority.class.isAssignableFrom(AppLogFactory.class));
-    }
 }

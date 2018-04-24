@@ -1,8 +1,11 @@
 package commons.box.app;
 
+import commons.box.util.Collects;
 import commons.box.util.Logs;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -72,6 +75,14 @@ public class AppSingletonFactory {
         return obj == NULL_OBJECT ? null : (T) obj;
     }
 
+    public Set<String> names() {
+        Set<String> ns = new LinkedHashSet<>();
+
+        ns.addAll(this.providers.keySet());
+        ns.addAll(this.objects.keySet());
+
+        return Collects.immset(ns);
+    }
 
     /**
      * 增加provider
@@ -81,9 +92,16 @@ public class AppSingletonFactory {
      */
     public void provider(String name, Supplier<?> provider) {
         if (name == null || provider == null) return;
-
-        synchronized (this.objects) {
+        synchronized (this.objects) { // TODO 验证此处保持同步是否影响性能
             this.providers.put(name, provider);
+        }
+    }
+
+    public void add(String name, Object object, boolean overwrite) {
+        if (name == null || object == null) return;
+        synchronized (this.objects) { // TODO 验证此处保持同步是否影响性能
+            if (overwrite) this.objects.put(name, object);
+            else if (!this.objects.containsKey(name)) this.objects.put(name, object);
         }
     }
 
