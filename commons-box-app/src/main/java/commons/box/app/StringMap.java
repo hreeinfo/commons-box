@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * 执行是否大小写无关的Map 有序 继承自LinkedHashMap
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/15 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class StringMap<V> extends LinkedHashMap<String, V> {

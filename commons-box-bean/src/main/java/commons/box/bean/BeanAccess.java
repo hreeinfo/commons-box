@@ -7,7 +7,6 @@ import commons.box.util.Strs;
 /**
  * Bean操作,封装了针对metaBean,map和object的统一访问机制
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/15 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public interface BeanAccess {

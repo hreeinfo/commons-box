@@ -7,6 +7,7 @@ import commons.box.app.misc.EntitiesASCII;
 import commons.box.app.misc.EntitiesHTML;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.Predicate;
@@ -20,7 +21,6 @@ import static java.util.stream.Collectors.joining;
 /**
  * 字符串常用工具类
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/4/21 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Strs {
@@ -1364,6 +1364,7 @@ public final class Strs {
      * @param regex 查询Regex
      * @return 返回结果
      */
+    @Nonnull
     public static String[] split(final String value, final String regex) {
         if (value == null) return EMPTY_STRS;
         return value.split(regex);
@@ -1375,8 +1376,9 @@ public final class Strs {
      * @param value 输入
      * @return 结果
      */
+    @Nonnull
     public static String[] words(final String value) {
-        if (value == null) return null;
+        if (value == null) return EMPTY_STRS;
         return value.split("\\W+");
     }
 

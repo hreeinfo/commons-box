@@ -15,15 +15,12 @@ import java.util.Map;
  * 本工具类使用了 Slf4j
  * <code>
  * compile("org.slf4j:slf4j-api:${version_slf4j}")
- * <p>
  * 默认LOG实现
  * compile("ch.qos.logback:logback-classic:${version_logback}")
- * <p>
  * compile("junit:junit:${version_junit}")
  * </code>
  * <p>
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/10 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Logs {

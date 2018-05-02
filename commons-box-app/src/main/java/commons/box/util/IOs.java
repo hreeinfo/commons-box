@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 /**
  * IO 相关工具类
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：15/12/29 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class IOs {

@@ -2,12 +2,12 @@ package commons.box.util;
 
 import org.apache.commons.lang3.time.FastDateFormat;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 import java.util.TimeZone;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/4/22 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class Dates {
@@ -18,6 +18,7 @@ public class Dates {
      * @return
      * @see Fmts#date(String)
      */
+    @Nonnull
     public static FastDateFormat fmt(String pattern) {
         return Fmts.date(pattern);
     }
@@ -31,6 +32,7 @@ public class Dates {
      * @return
      * @see Fmts#date(String, TimeZone, Locale)
      */
+    @Nonnull
     public static FastDateFormat fmt(String pattern, TimeZone timeZone, Locale locale) {
         return Fmts.date(pattern, timeZone, locale);
     }

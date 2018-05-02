@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
  * 如果需要覆盖此配置，需要声明优先级大于1000
  *
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/3 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class InternalAppLogFactoryBySlf4j implements AppLogFactory {

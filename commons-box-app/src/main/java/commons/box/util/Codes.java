@@ -14,7 +14,6 @@ import commons.box.app.misc.Hash.Coder;
 /**
  * 编码相关工具方法,包含md5/sha、加密等工具方法
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/27 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Codes {

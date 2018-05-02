@@ -17,7 +17,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * 复制Spring的ConcurrentReferenceHashMap,具体规则请参考Spring原始类
  * <p>
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/22 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class SafeRefMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {

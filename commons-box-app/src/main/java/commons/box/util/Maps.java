@@ -2,15 +2,13 @@ package commons.box.util;
 
 import com.google.common.collect.ImmutableMap;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * 与Map相关的工具类
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/16 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Maps {
@@ -20,6 +18,7 @@ public final class Maps {
     }
 
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <K, V> Map<K, V> immmap() {
         return (Map<K, V>) EMPTY_MAP;
     }
@@ -32,23 +31,11 @@ public final class Maps {
      * @param <V>
      * @return
      */
-    public static <K, V> Map<K, V> immmap(Map<K, V> map) {
-        return immmap(map, false);
-    }
-
-    /**
-     * 不可变更实例 指定是否按插入顺序来返回结果集(如果linked=true则使用linkedhashmap)
-     *
-     * @param map
-     * @param linked
-     * @param <K>
-     * @param <V>
-     * @return
-     */
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> immmap(Map<K, V> map, boolean linked) {
+    @Nonnull
+    public static <K, V> Map<K, V> immmap(Map<K, V> map) {
         if (map == null) return (Map<K, V>) EMPTY_MAP;
-        return Collections.unmodifiableMap(linked ? new LinkedHashMap<K, V>(map) : new HashMap<K, V>(map));
+        return Collections.unmodifiableMap(map);
     }
 
     /**

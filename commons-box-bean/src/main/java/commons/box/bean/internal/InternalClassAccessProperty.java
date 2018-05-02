@@ -17,7 +17,6 @@ import java.util.List;
  * <p>
  * 首先获取本级类定义的值 然后依次按方法字段获取是setter优先,getter其次,field最后,获取值时应该首先查找直接声明的值,然后再获取上级定义的值
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/16 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class InternalClassAccessProperty<T, P> implements ClassAccessProperty<T, P> {

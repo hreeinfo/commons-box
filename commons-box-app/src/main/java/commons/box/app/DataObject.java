@@ -8,7 +8,6 @@ import java.io.Serializable;
  * <p>同时 此接口在实现时必须符合bean编写规则</p>
  * <p>
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：15/10/21 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public interface DataObject extends Serializable {

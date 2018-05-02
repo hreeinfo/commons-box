@@ -11,7 +11,6 @@ import java.util.ServiceLoader;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/3 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class InternalServiceLoaders {

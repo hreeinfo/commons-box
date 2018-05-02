@@ -112,6 +112,10 @@ configure(subprojects) {
     apply plugin: "java"
     apply plugin: "maven"
 
+    configurations.all {
+        exclude group: "commons-logging"
+    }
+
     compileJava {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
@@ -154,8 +158,12 @@ configure(subprojects) {
         options.serialWarn()
 
         options.links(
-                "http://docs.oracle.com/javase/8/docs/api/",
-                "http://docs.spring.io/spring/docs/current/javadoc-api/"
+                "https://docs.oracle.com/javase/8/docs/api/",
+                "https://docs.spring.io/spring/docs/current/javadoc-api/",
+                "http://commons.apache.org/proper/commons-lang/javadocs/api-release/",
+                "http://commons.apache.org/proper/commons-io/javadocs/api-release/",
+                "http://commons.apache.org/proper/commons-collections/javadocs/api-release/",
+                "http://commons.apache.org/proper/commons-beanutils/javadocs/api-release/"
         )
     }
 
@@ -163,6 +171,7 @@ configure(subprojects) {
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource
+        exclude("**/internal/**", "**/Internal*", "**/*Internal", "**/Test*", "**/*Test", "**/temp/**")
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -187,3 +196,41 @@ configure(subprojects) {
 
 }
 
+apply plugin: "java"
+
+task appdoc(type: Javadoc) {
+    exclude("**/internal/**", "**/Internal*", "**/*Internal", "**/Test*", "**/*Test", "**/temp/**")
+
+    failOnError = false
+    options.quiet()
+
+    options.charSet("UTF-8")
+    options.docEncoding("UTF-8")
+    options.locale("zh_CN")
+
+    options.quiet()
+    options.showFromPublic()
+    options.header("${project_title}")
+    options.windowTitle("${project_title}")
+    options.docTitle("${project_title}")
+    options.footer("${project_productor}")
+
+    options.addStringOption("Xdoclint:none Xdoclint:-accessibility Xdoclint:-html Xdoclint:-missing Xdoclint:-syntax")
+
+    options.author()
+    options.splitIndex()
+    options.serialWarn()
+
+    options.links(
+            "https://docs.oracle.com/javase/8/docs/api/",
+            "https://docs.spring.io/spring/docs/current/javadoc-api/",
+            "http://commons.apache.org/proper/commons-lang/javadocs/api-release/",
+            "http://commons.apache.org/proper/commons-io/javadocs/api-release/",
+            "http://commons.apache.org/proper/commons-collections/javadocs/api-release/",
+            "http://commons.apache.org/proper/commons-beanutils/javadocs/api-release/"
+    )
+    source subprojects.collect { project -> project.sourceSets.main.allJava }
+    destinationDir = new File(buildDir, 'javadoc')
+    classpath = files(subprojects.collect { project -> project.sourceSets.main.compileClasspath })
+
+}

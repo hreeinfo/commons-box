@@ -2,35 +2,34 @@ package commons.box.app;
 
 import java.util.AbstractSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
- * 线程安全的Set
  * <p>创建作者：xingxiuyi </p>
  * <p>版权所属：xingxiuyi </p>
  */
-public class SafeSet<E> extends AbstractSet<E> implements Set<E> {
+public class SafeLinkedSet<E> extends AbstractSet<E> implements Set<E> {
     private static final Object DUMMY = Boolean.TRUE;
-    private final ConcurrentMap<E, Object> theMap;
+    private final Map<E, Object> theMap;
 
 
-    public SafeSet() {
+    public SafeLinkedSet() {
         theMap = new ConcurrentHashMap<>();
     }
 
 
-    public SafeSet(int initialCapacity) {
-        theMap = new ConcurrentHashMap<>(initialCapacity);
+    public SafeLinkedSet(int initialCapacity) {
+        theMap = new SafeLinkedMap.Builder<E, Object>().initialCapacity(initialCapacity).build();
     }
 
-    public SafeSet(int initialCapacity, float loadFactor) {
-        theMap = new ConcurrentHashMap<>(initialCapacity, loadFactor);
+    public SafeLinkedSet(int initialCapacity, float loadFactor) {
+        theMap = new SafeLinkedMap.Builder<E, Object>().initialCapacity(initialCapacity).build();
     }
 
-    public SafeSet(int initialCapacity, float loadFactor, int concurrencyLevel) {
-        theMap = new ConcurrentHashMap<>(initialCapacity, loadFactor, concurrencyLevel);
+    public SafeLinkedSet(int initialCapacity, float loadFactor, int concurrencyLevel) {
+        theMap = new SafeLinkedMap.Builder<E, Object>().initialCapacity(initialCapacity).concurrencyLevel(concurrencyLevel).build();
     }
 
     @Override

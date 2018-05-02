@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 /**
  * 系统工具
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：15/12/5 </p>
  */
 public final class SYSs {
     private static final AppLog LOG = Logs.get(SYSs.class);

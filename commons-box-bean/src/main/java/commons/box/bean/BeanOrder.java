@@ -17,7 +17,6 @@ import static commons.box.util.Orders.DefaultOrder.DEFAULT;
  * Bean排序 本排序器空值认为是最小值
  *
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/4/21 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class BeanOrder<T> extends Ordering<T> {

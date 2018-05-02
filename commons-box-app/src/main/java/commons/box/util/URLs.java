@@ -13,7 +13,6 @@ import java.util.Map;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/4/10 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class URLs {

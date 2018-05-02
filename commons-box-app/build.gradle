@@ -9,5 +9,7 @@ dependencies {
     compile("com.google.guava:guava:${version_guava}")
     compile("com.google.code.findbugs:jsr305:${version_jsr305}")
 
+    testCompile("org.junit.platform:junit-platform-launcher:${version_junit_platform}")
+    testCompile("org.junit.jupiter:junit-jupiter-engine:${version_junit_jupiter}")
 }
 

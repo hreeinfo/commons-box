@@ -23,7 +23,6 @@ import java.util.Base64;
 /**
  * 编码工具类
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/27 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Encode {

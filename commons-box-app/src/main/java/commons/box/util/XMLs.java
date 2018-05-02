@@ -6,6 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
+import javax.annotation.Nonnull;
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
@@ -21,7 +22,6 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/2 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class XMLs {

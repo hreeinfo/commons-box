@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 /**
  * CSV解析对象
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/2 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class CSV {

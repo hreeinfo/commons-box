@@ -1,5 +1,10 @@
 apply plugin: "java"
 
 dependencies {
+    compile(project(":commons-box-app"))
+    compile(project(":commons-box-log-slf4j"))
+
+    compile("org.junit.platform:junit-platform-launcher:${version_junit_platform}")
+    compile("org.junit.jupiter:junit-jupiter-engine:${version_junit_jupiter}")
 }
 

@@ -8,13 +8,14 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/11 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Collects {
@@ -23,6 +24,7 @@ public final class Collects {
     private static final Set<Object> EMPTY_SET = ImmutableSet.of();
 
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> List<T> immlist() {
         return (List<T>) EMPTY_LIST;
     }
@@ -34,9 +36,11 @@ public final class Collects {
      * @return
      */
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> List<T> immlist(Collection<T> list) {
         if (list == null || list.isEmpty()) return (List<T>) EMPTY_LIST;
-        return Collections.unmodifiableList(new ArrayList<T>(list));
+        if (list instanceof List) return Collections.unmodifiableList((List<T>) list);
+        else return Collections.unmodifiableList(new ArrayList<>(list));
     }
 
     @SuppressWarnings("unchecked")
@@ -51,20 +55,11 @@ public final class Collects {
      * @return
      */
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> Set<T> immset(Collection<T> set) {
-        return immset(set, false);
-    }
-
-    /**
-     * 不可变更实例  指定是否按插入顺序来返回结果集(如果linked=true则使用linkedhashset)
-     *
-     * @param <T>
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> Set<T> immset(Collection<T> set, boolean linked) {
         if (set == null || set.isEmpty()) return (Set<T>) EMPTY_SET;
-        return Collections.unmodifiableSet(linked ? new LinkedHashSet<T>(set) : new HashSet<T>(set));
+        if (set instanceof Set) return Collections.unmodifiableSet((Set<T>) set);
+        return Collections.unmodifiableSet(new LinkedHashSet<>(set));
     }
 
     /**
@@ -155,6 +150,7 @@ public final class Collects {
      * @param <T>
      * @return
      */
+    @Nonnull
     public static <T> Stream<T> stream(Collection<T> col, boolean parallel) {
         if (col == null) return Stream.empty();
         return (parallel) ? col.parallelStream() : col.stream();
@@ -167,6 +163,7 @@ public final class Collects {
      * @param <T>
      * @return
      */
+    @Nonnull
     public static <T> Stream<T> stream(T[] array) {
         if (array == null || array.length < 1) return Stream.empty();
         return Arrays.stream(array);
@@ -200,6 +197,7 @@ public final class Collects {
     /**
      * 返回a+b的新List.
      */
+    @Nonnull
     public static <T> List<T> union(final Collection<T> a, final Collection<T> b) {
         if (a == null && b == null) return new ArrayList<>();
         else if (a == null) return new ArrayList<>(b);
@@ -214,6 +212,7 @@ public final class Collects {
     /**
      * 返回a-b的新List.
      */
+    @Nonnull
     public static <T> List<T> subtract(final Collection<T> a, final Collection<T> b) {
         List<T> list = new ArrayList<>(a);
         for (T element : b) {
@@ -226,6 +225,7 @@ public final class Collects {
     /**
      * 返回a与b的交集的新List.
      */
+    @Nonnull
     public static <T> List<T> intersection(Collection<T> a, Collection<T> b) {
         List<T> list = new ArrayList<>();
 
@@ -238,6 +238,19 @@ public final class Collects {
     }
 
     /**
+     * 逆序
+     * @param source
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> reverse(Collection<T> source) {
+        if (isEmpty(source)) return new ArrayList<>();
+        List<T> results = new ArrayList<>(source);
+        Collections.reverse(results);
+        return results;
+    }
+
+    /**
      * 由数组生成List
      *
      * @param objs
@@ -245,6 +258,7 @@ public final class Collects {
      * @return
      */
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static <T> List<T> asList(T... objs) {
         if (objs == null || objs.length < 1) return (List<T>) EMPTY_LIST;
         return Arrays.asList(objs);
@@ -252,6 +266,7 @@ public final class Collects {
 
     // TODO NO_NULL SAFE
     @SafeVarargs
+    @Nonnull
     public static <T> Iterable<T> concat(Iterable<? extends T>... inputs) {
         if (inputs == null || inputs.length < 1) return new ArrayList<>();
         return Iterables.concat(inputs);

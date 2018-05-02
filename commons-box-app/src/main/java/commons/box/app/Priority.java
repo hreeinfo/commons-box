@@ -5,7 +5,6 @@ import commons.box.util.Orders;
 /**
  * 优先级 根据 priority() 方法返回所定义对象的优先级 值越小优先级越高
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/3 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public interface Priority extends Comparable<Priority> {

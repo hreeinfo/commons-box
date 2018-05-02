@@ -16,7 +16,6 @@ import java.util.function.Supplier;
 /**
  * Hash机制 支持md5/sha/crc等
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/27 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Hash {

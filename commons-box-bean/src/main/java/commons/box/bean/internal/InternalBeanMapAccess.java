@@ -12,7 +12,6 @@ import java.util.*;
 /**
  * 基于map的bean from 注意使用未指定类型的inst方法生成的实例总是非线程安全的
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/15 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 @SuppressWarnings("unchecked")

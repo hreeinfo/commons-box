@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * 可访问注解
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：15/10/21 </p>
  * <p>版权所属：南京恒立信息科技有限公司 </p>
  */
 public interface ClassAccessAnnotation {

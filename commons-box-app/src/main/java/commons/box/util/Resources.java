@@ -4,6 +4,7 @@ import commons.box.app.AppLog;
 import commons.box.app.AppResource;
 import commons.box.app.SafeMap;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import static commons.box.app.internal.InternalAppResourceLoaders.*;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/4/21 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Resources {
@@ -64,6 +64,7 @@ public final class Resources {
      * @param patterns
      * @return 找到的资源，未找到返回空List，总是不返回null
      */
+    @Nonnull
     public static List<AppResource> resources(String... patterns) {
         List<AppResource> resources = new ArrayList<>();
         if (patterns != null) for (String p : patterns) {

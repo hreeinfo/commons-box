@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 /**
  * 平台LOG 因各框架使用不同的LOG实现 在此使用统一的接口来规范所有日志机制
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/3/2 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public interface AppLog {

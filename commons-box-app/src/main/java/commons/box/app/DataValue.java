@@ -13,7 +13,6 @@ import java.util.Set;
 /**
  * 值对象封装
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/7/20 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class DataValue {

@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/18 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class AppClass<T> {

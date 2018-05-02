@@ -7,12 +7,12 @@ import commons.box.spring.resource.SpringResource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：2018/4/22 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Springs {
@@ -58,11 +58,12 @@ public final class Springs {
      * @param patterns
      * @return 找到的资源，未找到返回空List，总是不返回null
      */
+    @Nonnull
     public static List<SpringResource> resources(String... patterns) {
         List<SpringResource> resources = new ArrayList<>();
 
         List<AppResource> aps = Resources.resources(patterns);
-        if (aps != null) for (AppResource ap : aps) {
+        for (AppResource ap : aps) {
             if (ap == null) continue;
 
             if (ap instanceof SpringResource) resources.add((SpringResource) ap);
@@ -73,9 +74,9 @@ public final class Springs {
     }
 
     @SuppressWarnings("unchecked")
+    @Nonnull
     public static List<AppResource> appResources(String... patterns) {
         List<SpringResource> sprs = resources(patterns);
-        if (sprs == null) return Collects.immlist(new ArrayList<>());
         return (List) sprs;
     }
 }

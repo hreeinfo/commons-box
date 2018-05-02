@@ -7,7 +7,6 @@ import org.apache.commons.csv.CSVFormat;
 /**
  * CSV解析工具类
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/1/20 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class CSVs {

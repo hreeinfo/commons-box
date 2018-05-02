@@ -2,6 +2,7 @@ package commons.box.util;
 
 import org.apache.commons.lang3.time.FastDateFormat;
 
+import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Date;
@@ -13,7 +14,6 @@ import java.util.function.Function;
 /**
  * 安全的格式化类 避免标准JDK中 formatter 的线程冲突问题
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：16/6/25 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public class Fmts {
@@ -25,6 +25,7 @@ public class Fmts {
      * @param pattern
      * @return
      */
+    @Nonnull
     public static FastDateFormat date(String pattern) {
         if (Strs.isBlank(pattern)) return FastDateFormat.getInstance();
         else return FastDateFormat.getInstance(pattern);
@@ -40,6 +41,7 @@ public class Fmts {
      * @param locale
      * @return
      */
+    @Nonnull
     public static FastDateFormat date(String pattern, TimeZone timeZone, Locale locale) {
         if (Strs.isBlank(pattern) && timeZone == null && locale == null) return FastDateFormat.getInstance();
         else return FastDateFormat.getInstance(pattern, timeZone, locale);

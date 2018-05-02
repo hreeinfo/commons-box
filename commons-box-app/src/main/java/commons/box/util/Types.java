@@ -3,6 +3,7 @@ package commons.box.util;
 import commons.box.app.AppError;
 import commons.box.app.AppLog;
 
+import javax.annotation.Nonnull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -12,7 +13,6 @@ import java.util.*;
 /**
  * <p>提供基本类的解析机制，根据处理各种基本类型的判断和转换</p>
  * <p>创建作者：xingxiuyi </p>
- * <p>创建日期：15/6/23 </p>
  * <p>版权所属：xingxiuyi </p>
  */
 public final class Types {
@@ -114,18 +114,19 @@ public final class Types {
     }
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static boolean getValueBoolean(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<Boolean> getValueBoolean(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         if (Strs.equalsIgnoreCase(str, "true") || Strs.equalsIgnoreCase(str, "yes") || Strs.equalsIgnoreCase(str, "t") || Strs.equalsIgnoreCase(str, "y") || Strs.equalsIgnoreCase(str, "1"))
-            return true;
+            return Optional.of(Boolean.TRUE);
         else if (Strs.equalsIgnoreCase(str, "false") || Strs.equalsIgnoreCase(str, "no") || Strs.equalsIgnoreCase(str, "f") || Strs.equalsIgnoreCase(str, "n") || Strs.equalsIgnoreCase(str, "0"))
-            return false;
-        throw new AppError("Invalid value!");
+            return Optional.of(Boolean.FALSE);
+        return Optional.empty();
     }
 
     /**
@@ -147,18 +148,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static int getValueInt(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<Integer> getValueInt(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return Integer.parseInt(str);
+            return Optional.of(Integer.parseInt(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -179,18 +181,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static long getValueLong(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<Long> getValueLong(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return Long.parseLong(str);
+            return Optional.of(Long.parseLong(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -211,18 +214,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static float getValueFloat(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<Float> getValueFloat(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return Float.parseFloat(str);
+            return Optional.of(Float.parseFloat(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -243,18 +247,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static double getValueDouble(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<Double> getValueDouble(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return Double.parseDouble(str);
+            return Optional.of(Double.parseDouble(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -275,18 +280,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static BigDecimal getValueBigDecimal(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<BigDecimal> getValueBigDecimal(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return new BigDecimal(str);
+            return Optional.of(new BigDecimal(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -307,18 +313,19 @@ public final class Types {
 
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @return
      */
-    public static BigInteger getValueBigInteger(final String str) throws AppError {
-        if (Strs.isBlank(str)) throw new AppError("Invalid value!");
+    @Nonnull
+    public static Optional<BigInteger> getValueBigInteger(final String str) {
+        if (Strs.isBlank(str)) return Optional.empty();
         try {
-            return new BigInteger(str);
+            return Optional.of(new BigInteger(str));
         } catch (Exception ignored) {
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
@@ -338,19 +345,20 @@ public final class Types {
     }
 
     /**
-     * 获取值 不符合要求的值抛出异常
+     * 获取值
      *
      * @param str
      * @param enumClass
      * @return
      */
-    public static <T extends Enum<T>> T getValueEnum(final String str, final Class<T> enumClass) throws AppError {
-        if (Strs.isBlank(str) || enumClass == null) throw new AppError("Invalid value!");
+    @Nonnull
+    public static <T extends Enum<T>> Optional<T> getValueEnum(final String str, final Class<T> enumClass) {
+        if (Strs.isBlank(str) || enumClass == null) return Optional.empty();
         for (T en : enumClass.getEnumConstants()) {
             if (en.toString().equalsIgnoreCase(str))
-                return en;
+                return Optional.of(en);
         }
-        throw new AppError("Invalid value!");
+        return Optional.empty();
     }
 
     /**
