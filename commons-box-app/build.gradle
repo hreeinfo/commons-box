@@ -5,6 +5,7 @@ dependencies {
     compile("org.apache.commons:commons-text:${version_commons_text}")
     compile("commons-io:commons-io:${version_commons_io}")
     compile("commons-codec:commons-codec:${version_commons_codec}")
+    //compile("commons-net:commons-net:${version_commons_net}")
 
     compile("com.google.guava:guava:${version_guava}")
     compile("com.google.code.findbugs:jsr305:${version_jsr305}")

@@ -43,6 +43,7 @@ public final class Collects {
         else return Collections.unmodifiableList(new ArrayList<>(list));
     }
 
+
     @SuppressWarnings("unchecked")
     public static <T> Set<T> immset() {
         return (Set<T>) EMPTY_SET;
@@ -60,6 +61,29 @@ public final class Collects {
         if (set == null || set.isEmpty()) return (Set<T>) EMPTY_SET;
         if (set instanceof Set) return Collections.unmodifiableSet((Set<T>) set);
         return Collections.unmodifiableSet(new LinkedHashSet<>(set));
+    }
+
+
+    /**
+     * 新的 array list
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> newlist() {
+        return new ArrayList<>();
+    }
+
+    /**
+     * 新的 array list 其中包含原值
+     *
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> newlist(Collection<T> list) {
+        if (list == null || list.isEmpty()) return new ArrayList<>();
+        return new ArrayList<>(list);
     }
 
     /**
@@ -91,6 +115,34 @@ public final class Collects {
         return (array != null) && (array.length > 0);
     }
 
+    /**
+     * 第一个
+     *
+     * @param array
+     * @param <T>
+     * @return
+     */
+    public static <T> T first(T[] array) {
+        if (array == null || array.length < 1) return null;
+        return array[0];
+    }
+
+    /**
+     * 第一个 非空元素
+     *
+     * @param array
+     * @param <T>
+     * @return
+     */
+    public static <T> T firstNonnull(T[] array) {
+        if (array == null || array.length < 1) return null;
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) return array[i];
+        }
+
+        return null;
+    }
 
     /**
      * 取得Collection的第一个元素，如果collection为空返回null.
@@ -239,6 +291,7 @@ public final class Collects {
 
     /**
      * 逆序
+     *
      * @param source
      * @param <T>
      * @return

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * 与Map相关的工具类
@@ -77,5 +78,27 @@ public final class Maps {
                 cmv.putAll(vmv);
             }
         }
+    }
+
+    /**
+     * 当找到 map 的 value 后执行操作
+     *
+     * @param map
+     * @param key
+     * @param onValue
+     * @param <K>
+     * @param <V>
+     * @return 找到目标并执行了操作 返回 true 否则返回 false
+     */
+    public static <K, V> boolean get(Map<K, V> map, K key, Consumer<V> onValue) {
+        if (map == null || key == null || onValue == null) return false;
+
+        if (map.containsKey(key)) {
+            V value = map.get(key);
+            onValue.accept(value);
+            return true;
+        }
+
+        return false;
     }
 }

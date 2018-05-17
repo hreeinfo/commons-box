@@ -134,22 +134,34 @@ public final class URLs {
     }
 
     public static String encode(String data) {
+        return encode(data, Langs.UTF8);
+    }
+
+    public static String decode(String data) {
+        return decode(data, Langs.UTF8);
+    }
+
+
+    public static String encode(String data, String charset) {
+        if (Strs.isBlank(charset)) charset = Langs.UTF8;
         try {
-            return URLEncoder.encode(data, Langs.UTF8);
+            return URLEncoder.encode(data, charset);
         } catch (Throwable e) {
-            LOG.warn("无法组装URL编码字符串", e);
+            LOG.warn("无法组装URL编码字符串 - " + charset, e);
         }
         return data;
     }
 
-    public static String decode(String data) {
+    public static String decode(String data, String charset) {
+        if (Strs.isBlank(charset)) charset = Langs.UTF8;
         try {
-            return URLDecoder.decode(data, Langs.UTF8);
+            return URLDecoder.decode(data, charset);
         } catch (Throwable e) {
-            LOG.warn("无法组装URL编码字符串", e);
+            LOG.warn("无法组装URL编码字符串 - " + charset, e);
         }
         return data;
     }
+
 
     public static String toURL(File file) {
         if (file == null) return null;

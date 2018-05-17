@@ -202,6 +202,6 @@ public abstract class InternalAppLog implements AppLog {
     protected abstract void doLog(LogLevel logLevel, String msg, Throwable es, Object... params);
 
     protected void doLog(LogLevel logLevel, Supplier<String> msg, Throwable es, Object... params) {
-        this.doLog(logLevel, (msg == null) ? "" : msg.get(), es, params);
+        if (this.isEnabled(logLevel)) this.doLog(logLevel, (msg == null) ? "" : msg.get(), es, params);
     }
 }
