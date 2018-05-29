@@ -83,8 +83,8 @@ configure(allprojects) {
 
 
     bintray {
-        user = project.hasProperty("bintrayUser") ? project.getProperty("bintrayUser") : null
-        key =  project.hasProperty("bintrayKey") ? project.getProperty("bintrayKey") : null
+        user = project.hasProperty("bintray_user") ? project.getProperty("bintray_user") : null
+        key =  project.hasProperty("bintray_key") ? project.getProperty("bintray_key") : null
         publications = ["mavenJava"]
         publish = true
 
@@ -101,7 +101,20 @@ configure(allprojects) {
             publicDownloadNumbers = true
 
             version {
-                vcsTag = "v${project.version}"
+                vcsTag = "v$project.version"
+                gpg {
+                    sign = true
+                    passphrase = project.hasProperty("gpg_passphrase") ? project.getProperty("gpg_passphrase") : null
+                }
+
+                /* 当前版本通过 bintray 手工同步 后续自动构建开启
+                mavenCentralSync {
+                    sync = true
+                    user = project.hasProperty("maven_central_user") ? project.getProperty("maven_central_user") : null
+                    password = project.hasProperty("maven_central_password") ? project.getProperty("maven_central_password") : null
+                    close = "1"
+                }
+                 */
             }
         }
     }
