@@ -9,7 +9,6 @@ import commons.box.app.misc.Encode.Base64Type;
 import commons.box.app.misc.Encode.BinCoder;
 import commons.box.app.misc.Encode.HexCoder;
 import commons.box.app.misc.Hash;
-import commons.box.app.misc.Hash.Coder;
 
 /**
  * 编码相关工具方法,包含md5/sha、加密等工具方法
@@ -45,7 +44,7 @@ public final class Codes {
      *
      * @return
      */
-    public static Coder crc32() {
+    public static Hash.Coder crc32() {
         return Hash.CRC32.coder();
     }
 
@@ -54,45 +53,45 @@ public final class Codes {
      *
      * @return
      */
-    public static Coder crc32c() {
+    public static Hash.Coder crc32c() {
         return Hash.CRC32C.coder();
 
     }
 
-    public static Coder md5() {
+    public static Hash.Coder md5() {
         return Hash.MD5.coder();
     }
 
-    public static Coder sha1() {
+    public static Hash.Coder sha1() {
         return Hash.SHA1.coder();
     }
 
-    public static Coder sha256() {
+    public static Hash.Coder sha256() {
         return Hash.SHA256.coder();
     }
 
-    public static Coder sha384() {
+    public static Hash.Coder sha384() {
         return Hash.SHA384.coder();
     }
 
-    public static Coder sha512() {
+    public static Hash.Coder sha512() {
         return Hash.SHA512.coder();
     }
 
-    public static Coder murmur3_32() {
+    public static Hash.Coder murmur3_32() {
         return Hash.MURMUR3_32.coder();
     }
 
-    public static Coder murmur3_128() {
+    public static Hash.Coder murmur3_128() {
         return Hash.MURMUR3_128.coder();
     }
 
-    public static Coder sipHash24() {
+    public static Hash.Coder sipHash24() {
         return Hash.SIP_HASH24.coder();
     }
 
 
-    public static Coder adler32() {
+    public static Hash.Coder adler32() {
         return Hash.ADLER32.coder();
     }
 
@@ -201,6 +200,15 @@ public final class Codes {
     }
 
     /**
+     * URL Coder 默认 UTF-8 编码
+     *
+     * @return
+     */
+    public static Encode.URLCoder url() {
+        return Encode.URL;
+    }
+
+    /**
      * 获取hex编码器
      *
      * @return
@@ -246,26 +254,4 @@ public final class Codes {
     public static CipherAlgorithm aes256() {
         return Crypto.AES256;
     }
-
-    /*
-        public static void main(String[] args) {
-        final byte[] key2 = aes().genkey("hello".getBytes());
-        System.out.println(hex().encode(key2));
-
-
-        byte[] bs = aes().get(key2).encrypt(Strs.bytes("testte234234234234sttetdfasdfasdfas测试测试"));
-        System.out.println(hex().encode(bs));
-
-
-        byte[] bso = aes().get(key2).decrypt(bs);
-        System.out.println(Strs.get(bso));
-
-        TimeMetric.inst(e -> {
-            for (int i = 0; i < 100000; i++) {
-                byte[] abs = aes().get(key2).encrypt(Strs.bytes("testte234234234234sttetdfasdfasdfas测试测试"));
-                byte[] abso = aes().get(key2).decrypt(abs);
-            }
-        }).print("用时");
-    }
-     */
 }

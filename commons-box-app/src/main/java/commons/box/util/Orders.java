@@ -2,8 +2,13 @@ package commons.box.util;
 
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.*;
+import commons.box.app.AppBean;
+import commons.box.app.AppClass;
+import commons.box.app.bean.ClassAccess;
 
 import java.util.*;
+
+import static commons.box.util.Orders.DefaultOrder.DEFAULT;
 
 /**
  * <p>创建作者：xingxiuyi </p>
@@ -97,7 +102,8 @@ public final class Orders {
      */
     @SuppressWarnings("unchecked")
     public static <T> Ordering<T> ordering(Comparator... comparators) {
-        if (comparators == null || comparators.length < 1 || comparators[0] == null) return (Ordering<T>) DefaultOrder.DEFAULT;
+        if (comparators == null || comparators.length < 1 || comparators[0] == null)
+            return (Ordering<T>) DefaultOrder.DEFAULT;
         else if (comparators.length == 1) return Ordering.from(comparators[0]);
         else return new ChainOrder<T>(comparators);
     }
@@ -273,7 +279,203 @@ public final class Orders {
         }
     }
 
-    public static class User {
 
+    /**
+     * Bean排序 本排序器空值认为是最小值
+     *
+     * <p>创建作者：xingxiuyi </p>
+     * <p>版权所属：xingxiuyi </p>
+     */
+    public static class BeanOrder<T> extends Ordering<T> {
+        private final Class<T> type;
+        private final ClassAccess<T> ac;
+        private final String[] props;
+        private final boolean hasInnerProps;
+
+        public BeanOrder(Class<T> type, String... props) {
+            this.type = type;
+            this.ac = (this.type != null) ? AppClass.from(this.type).access() : null;
+            this.props = props;
+            this.hasInnerProps = AppBean.hasInnerProps(props);
+        }
+
+        public BeanOrder(String... props) {
+            this.type = null;
+            this.ac = null;
+            this.props = props;
+            this.hasInnerProps = AppBean.hasInnerProps(props);
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public int compare(T o1, T o2) {
+            if (o1 == null || o2 == null) return NULLOrder.DEFAULT.compare(o1, o2);
+            if (Collects.isEmpty(this.props)) return DEFAULT.compare(o1, o2);
+
+            if (this.ac == null || hasInnerProps) { // 当不存在ac或者具有内属性时 使用AppBean.get获取属性
+                for (String p : this.props) {
+                    if (Strs.isEmpty(p)) continue;
+                    Object v1 = this.getValueByBean(o1, p);
+                    Object v2 = this.getValueByBean(o2, p);
+
+                    int retval = DEFAULT.compare(v1, v2);
+                    if (retval != 0) return retval;
+                }
+            } else {
+                for (String p : this.props) {
+                    if (Strs.isEmpty(p)) continue;
+                    Object v1 = this.getValueByAccessClass(o1, p);
+                    Object v2 = this.getValueByAccessClass(o2, p);
+
+                    int retval = DEFAULT.compare(v1, v2);
+                    if (retval != 0) return retval;
+                }
+            }
+
+            return 0;
+        }
+
+        private Object getValueByBean(T o, String p) {
+            try {
+                return AppBean.inst().prop(o, p);
+            } catch (Throwable ignored) {
+            }
+            return null;
+        }
+
+
+        private Object getValueByAccessClass(T o, String p) {
+            try {
+                return this.ac.prop(p).get(o);
+            } catch (Throwable ignored) {
+            }
+            return null;
+        }
+
+
+    }
+
+
+    /**
+     * 排序的Builder
+     *
+     * @param <T>
+     */
+    public static final class OrderBuilder<T> {
+        private final boolean mapOrder;
+        private final Class<T> type;
+        private final List<Comparator<?>> comps = new ArrayList<>();
+
+        private Ordering<T> tmpOrder = null;
+
+        private OrderBuilder(Class<T> type) {
+            this.mapOrder = false;
+            this.type = type;
+        }
+
+        private OrderBuilder(boolean mapOrder) {
+            this.mapOrder = mapOrder;
+            this.type = null;
+        }
+
+        public static <T> OrderBuilder<T> build(Class<T> type) {
+            return new OrderBuilder<>(type);
+
+        }
+
+        public static <T> OrderBuilder<T> build(boolean mapOrder) {
+            return new OrderBuilder<>(mapOrder);
+        }
+
+
+        /**
+         * 按升序排序
+         *
+         * @param prop
+         * @return
+         */
+        public OrderBuilder<T> asc(String... prop) {
+            this.tmpOrder = null;
+            if (prop == null || prop.length < 1) return this;
+            if (this.mapOrder) this.comps.add(byMap((Object[]) prop));
+            else if (this.type == null) this.comps.add(Beans.orderByProps(prop));
+            else this.comps.add(Beans.orderByProps(this.type, prop));
+            return this;
+        }
+
+        /**
+         * 按降序排序
+         *
+         * @param prop
+         * @return
+         */
+        public OrderBuilder<T> desc(String... prop) {
+            this.tmpOrder = null;
+            if (prop == null || prop.length < 1) return this;
+            if (this.mapOrder) this.comps.add(byMap((Object[]) prop).reverse());
+            else if (this.type == null) this.comps.add(Beans.orderByProps(prop).reverse());
+            else this.comps.add(Beans.orderByProps(this.type, prop).reverse());
+            return this;
+        }
+
+        /**
+         * 组合
+         *
+         * @param comparators
+         * @return
+         */
+        public OrderBuilder<T> comp(Comparator<?>... comparators) {
+            this.tmpOrder = null;
+            if (comparators != null) for (Comparator<?> c : comps) if (c != null) this.comps.add(c);
+            return this;
+        }
+
+        /**
+         * 构建实例
+         *
+         * @return
+         */
+        @SuppressWarnings("unchecked")
+        public Ordering<T> build() {
+            Ordering<T> to = this.tmpOrder;
+            if (to == null) {
+                int s = this.comps.size();
+                if (s < 1) to = (Ordering<T>) DefaultOrder.DEFAULT;
+                else if (s == 1) {
+                    Comparator c = this.comps.get(0);
+                    to = (c != null) ? Ordering.from(c) : (Ordering<T>) DefaultOrder.DEFAULT;
+                } else to = new ChainOrder(this.comps);
+                this.tmpOrder = to;
+            }
+
+            return to;
+        }
+
+        /**
+         * 工具方法 直接排序
+         *
+         * @param c
+         * @return
+         */
+        public OrderBuilder<T> sort(List<T> c) {
+            return sort(c, true);
+        }
+
+        /**
+         * 工具方法 直接排序
+         *
+         * @param c
+         * @param asc 声明是升序还是降序
+         * @return
+         */
+        @SuppressWarnings("unchecked")
+        public OrderBuilder<T> sort(List<T> c, boolean asc) {
+            if (c == null || c.isEmpty()) return this;
+
+            Ordering<T> ot = this.build();
+            if (ot == null) ot = (Ordering<T>) DefaultOrder.DEFAULT;
+            Collections.sort(c, asc ? ot : ot.reverse());
+            return this;
+        }
     }
 }

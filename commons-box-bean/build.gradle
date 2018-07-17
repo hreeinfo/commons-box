@@ -1,7 +1,0 @@
-apply plugin: "java"
-
-dependencies {
-    compile(project(":commons-box-app"))
-    compile("commons-beanutils:commons-beanutils:${version_commons_beanutils}")
-}
-

@@ -44,6 +44,7 @@ public final class Encode {
     public static final Coder JAVA = new JAVACoder();
     public static final Coder CSV = new CSVCoder();
     public static final Coder UNICODE = new UnicodeCoder();
+    public static final URLCoder URL = new URLCoder();
 
     public static final HexCoder HEX = new HexCoder();
     public static final BinCoder BIN01 = new BinCoder();
@@ -324,10 +325,22 @@ public final class Encode {
          * @param charset
          * @return
          */
-        public String encode(String src, Charset charset) {
+        public String encode(String src, Charset charset) throws AppError {
             if (charset == null) charset = Langs.CHARSET_UTF8;
+            return this.encode(src, charset.name());
+        }
+
+        /**
+         * 按指定编码集编码URL
+         *
+         * @param src
+         * @param charset
+         * @return
+         */
+        public String encode(String src, String charset) throws AppError {
+            if (Strs.isBlank(charset)) charset = Langs.UTF8;
             try {
-                return URLEncoder.encode(src, charset.name());
+                return URLEncoder.encode(src, charset);
             } catch (Throwable e) {
                 throw AppError.error("无法序列化 URL:" + src);
             }
@@ -345,15 +358,19 @@ public final class Encode {
          * @param charset
          * @return
          */
-        public String decode(String src, Charset charset) {
+        public String decode(String src, Charset charset) throws AppError {
             if (charset == null) charset = Langs.CHARSET_UTF8;
+            return this.decode(src, charset.name());
+        }
+
+        public String decode(String src, String charset) throws AppError {
+            if (Strs.isBlank(charset)) charset = Langs.UTF8;
             try {
-                return URLDecoder.decode(src, charset.name());
+                return URLDecoder.decode(src, charset);
             } catch (Throwable e) {
                 throw AppError.error("无法反序列化 URL:" + src);
             }
         }
-
     }
 
     public final static class BinCoder {

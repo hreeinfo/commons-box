@@ -31,7 +31,7 @@ public final class URLs {
      * 精简的HTTP调用
      *
      * @param url
-     * @param postData 如果值为null 使用POST方法 否则使用GET方法
+     * @param postData 如果值为null 使用GET方法 否则使用POST方法
      * @param encoding
      * @param timeout
      * @return
@@ -143,23 +143,11 @@ public final class URLs {
 
 
     public static String encode(String data, String charset) {
-        if (Strs.isBlank(charset)) charset = Langs.UTF8;
-        try {
-            return URLEncoder.encode(data, charset);
-        } catch (Throwable e) {
-            LOG.warn("无法组装URL编码字符串 - " + charset, e);
-        }
-        return data;
+        return Codes.url().encode(data, charset);
     }
 
     public static String decode(String data, String charset) {
-        if (Strs.isBlank(charset)) charset = Langs.UTF8;
-        try {
-            return URLDecoder.decode(data, charset);
-        } catch (Throwable e) {
-            LOG.warn("无法组装URL编码字符串 - " + charset, e);
-        }
-        return data;
+        return Codes.url().decode(data, charset);
     }
 
 
@@ -167,7 +155,7 @@ public final class URLs {
         if (file == null) return null;
         try {
             return file.toURI().toURL().toString();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         return null;
     }

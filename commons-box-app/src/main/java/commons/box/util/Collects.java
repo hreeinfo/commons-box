@@ -317,6 +317,13 @@ public final class Collects {
         return Arrays.asList(objs);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T[] array(Collection<T> objs) {
+        if (objs == null || objs.size() < 1) return (T[]) new Object[]{};
+        else if (objs instanceof List) return objs.toArray((T[]) new Object[]{});
+        else return (new ArrayList<T>(objs)).toArray((T[]) new Object[]{});
+    }
+
     // TODO NO_NULL SAFE
     @SafeVarargs
     @Nonnull

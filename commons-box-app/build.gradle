@@ -5,10 +5,24 @@ dependencies {
     compile("org.apache.commons:commons-text:${version_commons_text}")
     compile("commons-io:commons-io:${version_commons_io}")
     compile("commons-codec:commons-codec:${version_commons_codec}")
+    compile("commons-beanutils:commons-beanutils:${version_commons_beanutils}")
     //compile("commons-net:commons-net:${version_commons_net}")
 
     compile("com.google.guava:guava:${version_guava}")
     compile("com.google.code.findbugs:jsr305:${version_jsr305}")
+
+
+    compileOnly("org.springframework:spring-core:${version_spring}")
+    compileOnly("org.springframework:spring-context:${version_spring}")
+
+    compileOnly("javax.servlet:javax.servlet-api:${version_javax_servlet}")
+
+
+    compileOnly("org.apache.commons:commons-csv:${version_commons_csv}")
+    compileOnly("com.alibaba:fastjson:${version_fastjson}")
+    compileOnly("org.ini4j:ini4j:${version_ini4j}")
+    compileOnly("org.yaml:snakeyaml:${version_yaml}")
+
 
     testCompile("org.junit.platform:junit-platform-launcher:${version_junit_platform}")
     testCompile("org.junit.jupiter:junit-jupiter-engine:${version_junit_jupiter}")

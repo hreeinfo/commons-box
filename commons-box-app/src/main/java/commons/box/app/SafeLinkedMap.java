@@ -1683,7 +1683,7 @@ public class SafeLinkedMap<K, V> extends AbstractMap<K, V> {
         static final long serialVersionUID = 1;
     }
 
-    /* ---------------- Builder -------------- */
+    /* ---------------- OrderBuilder -------------- */
 
     /**
      * A builder that creates {@link SafeLinkedMap} instances. It provides a
@@ -1694,7 +1694,7 @@ public class SafeLinkedMap<K, V> extends AbstractMap<K, V> {
      *
      * {
      *     &#064;code
-     *     ConcurrentMap&lt;Vertex, Set&lt;Edge&gt;&gt; graph = new Builder&lt;Vertex, Set&lt;Edge&gt;&gt;()
+     *     ConcurrentMap&lt;Vertex, Set&lt;Edge&gt;&gt; graph = new OrderBuilder&lt;Vertex, Set&lt;Edge&gt;&gt;()
      *             .maximumWeightedCapacity(5000)
      *             .weigher(Weighers.&lt;Edge&gt; set())
      *             .build();

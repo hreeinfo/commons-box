@@ -2,20 +2,20 @@ package commons.box.util;
 
 import commons.box.app.AppError;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
-import javax.annotation.Nonnull;
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
  * <p>版权所属：xingxiuyi </p>
  */
 public final class XMLs {
-    private static final Map<String, String> EMPTY_HEADERS = Maps.immmap(null);
+    private static final Map<String, String> EMPTY_HEADERS = Maps.immmap(new LinkedHashMap<>());
     private static final DocumentBuilderFactory XML_DOCUMENT_BUILDER_FACT = DocumentBuilderFactory.newInstance();
 
     private static ConcurrentMap<String, JAXBContext> JAXB_CONTEXT = new ConcurrentHashMap<>();
@@ -34,22 +34,18 @@ public final class XMLs {
     }
 
 
-    public static Document fromStringToDocument(String xml) {
-        try {
-            return fromInputStreamToDocument(new ByteArrayInputStream(xml.getBytes("utf-8")), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+    public static Document from(String xml) {
+        return from(new ByteArrayInputStream(xml.getBytes(Langs.CHARSET_UTF8)), Langs.UTF8);
     }
 
-    public static Document fromInputStreamToDocument(InputStream in, String encoding) {
+    public static Document from(InputStream in, String encoding) {
         DocumentBuilder builder = null;
         Document ret = null;
 
         try {
             builder = XML_DOCUMENT_BUILDER_FACT.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
+            throw new AppError("XML 解析器构建存在错误 - ", e);
         }
 
         try {
@@ -57,7 +53,7 @@ public final class XMLs {
             is.setEncoding(encoding);
             ret = builder.parse(is);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new AppError("XML 解析错误 - " + e.getMessage(), e);
         }
 
         return ret;
@@ -157,7 +153,7 @@ public final class XMLs {
         }
         return xpath;
     }
-    */
+     */
 
     /**
      * 值对象转换为XML

@@ -2,6 +2,8 @@ package commons.box.util;
 
 import commons.box.app.AppError;
 import commons.box.app.AppLog;
+import commons.box.app.internal.InternalSpringHelper;
+import org.springframework.core.annotation.AnnotationUtils;
 
 import javax.annotation.Nonnull;
 import java.lang.annotation.Annotation;
@@ -389,14 +391,75 @@ public final class Types {
         if (object == null) return false;
         else if (object instanceof Boolean) return (Boolean) object;
         else if (object instanceof String) {
-            return Strs.equalsIgnoreCase("true", (String) object) || Strs.equalsIgnoreCase("t", (String) object)
-                    || Strs.equalsIgnoreCase("ok", (String) object) || Strs.equalsIgnoreCase("yes", (String) object)
-                    || Strs.equalsIgnoreCase("y", (String) object);
+            String ot = (String) object;
+            switch (ot) {
+                case "t":
+                    return true;
+                case "T":
+                    return true;
+                case "true":
+                    return true;
+                case "TRUE":
+                    return true;
+                case "y":
+                    return true;
+                case "Y":
+                    return true;
+                case "yes":
+                    return true;
+                case "YES":
+                    return true;
+                case "1":
+                    return true;
+                default:
+                    return false;
+            }
         } else if (object instanceof Number) return ((Number) object).intValue() > 0;
-        else return false;
+
+        return false;
     }
 
-    private static Object convertToType(Object value, Class<? extends Object> type) {
+    /**
+     * 是否是false 可选值包括:false(b) false(s) f(s) 0(d) 0(i) 字符忽略大小写
+     * <p>
+     * 本方法表示的含义是如果目标对象 符合 false 判断标准（包括字符类型、布尔或者数字的 false） 则返回 TRUE
+     *
+     * @param object
+     * @return
+     */
+    public static boolean isFalse(Object object) {
+        if (object == null) return false;
+        else if (object instanceof Boolean) return Boolean.FALSE.equals(object);
+        else if (object instanceof String) {
+            String ot = (String) object;
+            switch (ot) {
+                case "f":
+                    return true;
+                case "F":
+                    return true;
+                case "false":
+                    return true;
+                case "FALSE":
+                    return true;
+                case "n":
+                    return true;
+                case "N":
+                    return true;
+                case "no":
+                    return true;
+                case "NO":
+                    return true;
+                case "0":
+                    return true;
+                default:
+                    return false;
+            }
+        } else if (object instanceof Number) return ((Number) object).intValue() <= 0;
+
+        return false;
+    }
+
+    private static Object convertToType(Object value, Class<?> type) {
         if (value != null && !type.isInstance(value)) {
             // x -> y
             if (value instanceof String) {
@@ -425,7 +488,7 @@ public final class Types {
 
 
     /**
-     * 查找注解 因部分缓存机制此方法性能并不是特别差 TODO 需优化实现
+     * 查找注解
      *
      * @param clazz
      * @param annotationType
@@ -434,12 +497,12 @@ public final class Types {
      */
     public static <A extends Annotation> A findAnnotation(Class<?> clazz, Class<A> annotationType) {
         if (clazz == null || annotationType == null) return null;
-        //return AnnotationUtils.findAnnotation(clazz, annotationType);
-        return null;
+        if (InternalSpringHelper.ENABLED) return InternalSpringHelper.findAnnotation(clazz, annotationType);
+        else throw AppError.error("非 Spring 环境，无法调用本方法");
     }
 
     /**
-     * 查找注解 因部分缓存机制此方法性能并不是特别差 注意此方法仅查询本级所对应的注解 而不会去搜索上级实现 TODO 需优化实现
+     * 查找注解 注意此方法仅查询本级所对应的注解 而不会去搜索上级实现
      *
      * @param element
      * @param annotationType
@@ -448,8 +511,8 @@ public final class Types {
      */
     public static <A extends Annotation> A findAnnotation(AnnotatedElement element, Class<A> annotationType) {
         if (element == null || annotationType == null) return null;
-        //return AnnotationUtils.findAnnotation(element, annotationType);
-        return null;
+        if (InternalSpringHelper.ENABLED) return InternalSpringHelper.findAnnotation(element, annotationType);
+        else throw AppError.error("非 Spring 环境，无法调用本方法");
     }
 
     /**
@@ -638,7 +701,7 @@ public final class Types {
             }
             currentClass = currentClass.getSuperclass();
         }
-        return methodList.toArray(new Method[methodList.size()]);
+        return methodList.toArray(new Method[]{});
     }
 
     /**
