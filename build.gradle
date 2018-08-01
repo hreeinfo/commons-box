@@ -219,7 +219,7 @@ task appdoc(type: Javadoc) {
 
     options.charSet("UTF-8")
     options.docEncoding("UTF-8")
-    options.locale("zh_CN")
+    options.locale("en_US")
 
     options.quiet()
     options.showFromPublic()

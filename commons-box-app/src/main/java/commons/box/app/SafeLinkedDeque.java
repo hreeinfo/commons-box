@@ -57,11 +57,11 @@ import java.util.NoSuchElementException;
  * non-deterministic behavior at an undetermined time in the future.
  *
  * @param <E> the type of elements held in this collection
- * <p>创建作者：xingxiuyi </p>
- * <p>版权所属：xingxiuyi </p>
+ *            <p>创建作者：xingxiuyi </p>
+ *            <p>版权所属：xingxiuyi </p>
  */
 
-public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E> {
+class SafeLinkedDeque<E extends Linked<E>> extends AbstractCollection<E> {
 
     // This class provides a doubly-linked list that is optimized for the virtual
     // machine. The first and last elements are manipulated instead of a slightly
@@ -93,8 +93,7 @@ public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E>
 
         if (f == null) {
             last = e;
-        }
-        else {
+        } else {
             f.setPrevious(e);
             e.setNext(f);
         }
@@ -111,14 +110,15 @@ public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E>
 
         if (l == null) {
             first = e;
-        }
-        else {
+        } else {
             l.setNext(e);
             e.setPrevious(l);
         }
     }
 
-    /** Unlinks the non-null first element. */
+    /**
+     * Unlinks the non-null first element.
+     */
     E unlinkFirst() {
         final E f = first;
         final E next = f.getNext();
@@ -127,14 +127,15 @@ public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E>
         first = next;
         if (next == null) {
             last = null;
-        }
-        else {
+        } else {
             next.setPrevious(null);
         }
         return f;
     }
 
-    /** Unlinks the non-null last element. */
+    /**
+     * Unlinks the non-null last element.
+     */
     E unlinkLast() {
         final E l = last;
         final E prev = l.getPrevious();
@@ -142,30 +143,29 @@ public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E>
         last = prev;
         if (prev == null) {
             first = null;
-        }
-        else {
+        } else {
             prev.setNext(null);
         }
         return l;
     }
 
-    /** Unlinks the non-null element. */
+    /**
+     * Unlinks the non-null element.
+     */
     void unlink(E e) {
         final E prev = e.getPrevious();
         final E next = e.getNext();
 
         if (prev == null) {
             first = next;
-        }
-        else {
+        } else {
             prev.setNext(next);
             e.setPrevious(null);
         }
 
         if (next == null) {
             last = prev;
-        }
-        else {
+        } else {
             next.setPrevious(prev);
             e.setNext(null);
         }
@@ -199,7 +199,7 @@ public class SafeLinkedDeque <E extends Linked<E>> extends AbstractCollection<E>
 
     @Override
     public void clear() {
-        for (E e = first; e != null;) {
+        for (E e = first; e != null; ) {
             E next = e.getNext();
             e.setPrevious(null);
             e.setNext(null);

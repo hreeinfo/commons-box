@@ -34,12 +34,45 @@ public final class DataCache<K, V> {
         return build(loader, spec);
     }
 
-    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, Spec spec) {
+    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, long max, long expireAfterAccess, long expireAfterWrite) {
+        Spec spec = new Spec(max, expireAfterAccess, expireAfterWrite);
+        return build(loader, spec);
+    }
+
+
+    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, long max, long expireAfterAccess, long expireAfterWrite, int initCapacity) {
+        Spec spec = new Spec(max, expireAfterAccess, expireAfterWrite, initCapacity);
+        return build(loader, spec);
+    }
+
+
+    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, long max,
+                                               Consumer<DataEntry<K, V>> removalCmd) {
+
+        Spec spec = new Spec(max);
+        return build(loader, spec, removalCmd);
+    }
+
+
+    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, long max, long expireAfterAccess, long expireAfterWrite,
+                                               Consumer<DataEntry<K, V>> removalCmd) {
+
+        Spec spec = new Spec(max, expireAfterAccess, expireAfterWrite);
+        return build(loader, spec, removalCmd);
+    }
+
+    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, long max, long expireAfterAccess, long expireAfterWrite, int initCapacity,
+                                               Consumer<DataEntry<K, V>> removalCmd) {
+        Spec spec = new Spec(max, expireAfterAccess, expireAfterWrite, initCapacity);
+        return build(loader, spec, removalCmd);
+    }
+
+    private static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, Spec spec) {
         return build(loader, spec, null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, Spec spec, Consumer<DataEntry<K, V>> removalCmd) {
+    private static <K, V> DataCache<K, V> build(DataLoader<K, V> loader, Spec spec, Consumer<DataEntry<K, V>> removalCmd) {
         CacheBuilder<K, DataEntry<K, V>> cb = (CacheBuilder) CacheBuilder.newBuilder();
         if (spec != null) {
             if (spec.max > 0) cb = cb.maximumSize(spec.max);
@@ -174,7 +207,7 @@ public final class DataCache<K, V> {
     /**
      * 缓存特性 各特性值为-1时使用默认值
      */
-    public final static class Spec {
+    private final static class Spec {
         private final long max;
         private final long expireAfterAccess;
         private final long expireAfterWrite;
