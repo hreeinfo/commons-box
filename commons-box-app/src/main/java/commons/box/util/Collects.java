@@ -43,6 +43,13 @@ public final class Collects {
         else return Collections.unmodifiableList(new ArrayList<>(list));
     }
 
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    public static <T> List<T> immlist(T... array) {
+        if (array == null) return immlist();
+        return immlist(Arrays.asList(array));
+    }
+
 
     @SuppressWarnings("unchecked")
     public static <T> Set<T> immset() {
@@ -63,6 +70,13 @@ public final class Collects {
         return Collections.unmodifiableSet(new LinkedHashSet<>(set));
     }
 
+
+    @SuppressWarnings("unchecked")
+    @Nonnull
+    public static <T> Set<T> immset(T... array) {
+        if (array == null) return immset();
+        return immset(Arrays.asList(array));
+    }
 
     /**
      * 新的 array list

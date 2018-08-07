@@ -190,7 +190,8 @@ public final class Strs {
      * @return
      */
     public static String trim(final String str, final boolean toEmpty) {
-        return toEmpty ? StringUtils.trimToEmpty(str) : StringUtils.trimToNull(str);
+        if (isBlank(str)) return (toEmpty) ? "" : null;
+        return str.trim();
     }
 
     /**
